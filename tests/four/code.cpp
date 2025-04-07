@@ -8,6 +8,8 @@
 #include <cmath>
 #include "deque.hpp"
 #include "exceptions.hpp"
+#include "my_deque.hpp"
+using std::endl, std::cout;
 
 
 /***************************/
@@ -111,6 +113,7 @@ void test3(){
     }
     if((q.begin() + num) != q.end()) {puts("Wrong Answer");return;}
     if((q.end() - num) != q.begin()) {puts("Wrong Answer");return;}
+   
     bool flag=0;
     sjtu::deque<T> other;
     try{
@@ -119,6 +122,7 @@ void test3(){
         flag=1;
     }
     if(!flag && need_to_check_throw) {puts("Wrong Answer");return;}
+
     it_q = q.begin();
     it_stl = stl.begin();
     for(int i=1;i<=10;i++){
@@ -128,6 +132,7 @@ void test3(){
         if(*it_q != *it_stl) {puts("Wrong Answer");return;}
         if(it_q -> num() != it_stl -> num()) {puts("Wrong Answer");return;}
     }
+
     it_q = --q.end();
     it_stl = --stl.end();
     if(*it_q != *it_stl) {puts("Wrong Answer");return;}
@@ -140,10 +145,12 @@ void test3(){
         it_stl -> change(t);
         if(*it_q != *it_stl) {puts("Wrong Answer");return;}
     }
-    if(!equal()) {puts("Wrong Answer");return;}
-    if (!(q.begin() + 10 == q.begin() +5 + 6 - 1)) {puts("Wrong Answer");return;}
+//////
+    if(!equal()) {cout << 1 << endl;puts("Wrong Answer");return;}
+    if (!(q.begin() + 10 == q.begin() +5 + 6 - 1)) {cout << 2 << endl;puts("Wrong Answer");return;}
     sjtu::deque<T> pp;
-    if(q.end() == pp.end()){puts("Wrong Answer");return;}
+    if(q.end() == pp.end()){cout << 3 << endl;puts("Wrong Answer");return;}
+cout << "ok" << endl;
 
     int t = rand() % (q.size() - 1);
     it_q = q.begin() + t;
@@ -191,19 +198,39 @@ void test4(){
 
 void test5(){
     printf("test5: erase & insert                ");
+    cout << sqrt(N) << endl;
     for(int i=1;i<=sqrt(N) && q.size()>=10;i++)
     {
         int t = rand() % (q.size() - 3);
         it_q = q.begin() + t;
         it_stl = stl.begin() + t;
+        if (it_q - q.begin() != it_stl - stl.begin()) {
+            cout << 111 << endl;
+            cout << "i " << i << "t " << t << endl;
+            cout << it_q - q.begin() << " " << it_stl - stl.begin() << endl;
+            cout << q.size() << " " << stl.size() << endl;
+        }
         it_q = q.erase(it_q);
         it_stl = stl.erase(it_stl);
+        if (it_q - q.begin() != it_stl - stl.begin()) {
+            cout << 222 << endl;
+            cout << "i " << i << "t " << t << endl;
+            cout << it_q - q.begin() << " " << it_stl - stl.begin() << endl;
+            cout << q.size() << " " << stl.size() << endl;
+        }
         it_q = q.erase(it_q);
         it_stl = stl.erase(it_stl);
+        if (it_q - q.begin() != it_stl - stl.begin()) {
+            cout << 333 << endl;
+            cout << "i " << i << "t " << t << endl;
+            cout << it_q - q.begin() << " " << it_stl - stl.begin() << endl;
+            cout << q.size() << " " << stl.size() << endl;
+        }
         it_q -> change(t);
         it_stl -> change(t);
     }
     if(!equal()) {puts("Wrong Answer");return;}
+cout << "ok" << endl;
     it_q = q.erase(q.end() - 1);
     it_stl = stl.erase(stl.end() - 1);
     if(it_q != q.end()){puts("Wrong Answer");return;}

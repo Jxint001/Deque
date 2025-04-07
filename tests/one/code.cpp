@@ -12,6 +12,10 @@ Yours Sincerely. Rabbit.
 #include <vector>
 #include <deque>
 #include "deque.hpp"
+#include <iostream>
+using std::cout, std::endl;
+
+void flag() {cout << "code ok" << endl;}
 
 long long randNum(long long x,long long maxNum)
 {
@@ -32,12 +36,20 @@ void TestInteger()
     sjtu::deque<Integer> dInt;
     std::vector<Integer> vInt;
     for (int i = 0; i < N; ++i) {
+        //cout << i << endl;
         vInt.push_back(Integer(randNum(i, N + 17)));
         dInt.push_back(vInt[i]);
+        //vInt.push_back(Integer(i));
+        //dInt.push_back(vInt[i]);
     }
+    //dInt.print();
+    //for (int i = 0; i < 10; ++i) {cout << vInt[i] << endl;}
     for (int i = 0; i < N; ++i) {
-        if (!(vInt[i] == dInt[i]))
+        //cout << "i "<<i << endl;
+        if (!(vInt[i] == dInt[i])) {
+            cout << "i " << i << " " << vInt[i] << " " << dInt[i] << endl;
             error();
+        }
     }
     std::cout << "Correct." << std::endl;
 }
@@ -101,20 +113,25 @@ void TestCopyConstructorAndOperatorEqu()
     std::cout << "Correct." << std::endl;
 }
 
+// Test5
 void TestIteratorSequenceAccess()
 {
-    std::cout << "Test 5 : Test for accessing the container in the order of the sequence, using iterator...";
+    std::cout << "Test 5 : Test for accessing the container in the order of the sequence, using iterator..." << endl;
     sjtu::deque<long long> dInt;
     for (long long i = 0; i < N; ++i) {
         dInt.push_back(i);
     }
+    //dInt.print();
+    //exit(0);
     sjtu::deque<long long> :: iterator it;
     it = dInt.begin();
     for (long long i = 0; i < N; ++i) {
+        //cout << "i " << i << " *it: " << *it << endl;
         if (!(*it == dInt[i]))
             error();
         ++it;
     }
+    //cout << "iterared" << endl;
     if (it != dInt.end())
         error();
     std::cout << "Correct." << std::endl;
@@ -171,11 +188,14 @@ void TestPopAndPush()
         dInt.push_back(i);
         vInt.push_back(i);
     }
+    
     for (size_t i = 0; i < 107LL; ++i)
     {
+        //cout << "i " << i << endl;
         dInt.pop_back();
         vInt.pop_back();
     }
+    
     for (size_t i = 0; i < 1114LL; ++i)
     {
         drInt.push_front(i);
@@ -200,7 +220,9 @@ void TestPopAndPush()
 
 int main()
 {
+    freopen("output.txt", "w", stdout);
     TestInteger();
+    //exit(0);
     TestMatrix();
     TestBint();
     TestCopyConstructorAndOperatorEqu();

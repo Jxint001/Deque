@@ -207,6 +207,7 @@ void test5(){
     it_q = q.erase(q.end() - 1);
     it_stl = stl.erase(stl.end() - 1);
     if(it_q != q.end()){puts("Wrong Answer");return;}
+
     for(int i = 1; i <= sqrt(N); i++)
     {
         int t = rand() % q.size();
@@ -228,6 +229,7 @@ void test5(){
     it_q = q.insert(q.end(), T(23333));
     it_stl = stl.insert(stl.end(),T(23333));
     if(it_q != q.end() - 1){puts("Wrong Answer");return;}
+cout << "ok" << endl;
     if(!equal()) {puts("Wrong Answer");return;}
     puts("Accept");
 }

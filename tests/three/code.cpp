@@ -331,10 +331,13 @@ std::pair<bool, double> iteratorAddNChecker() {
     std::deque<Int> a;
     sjtu::deque<Int> b;
     for (int i = 0; i < N; i++) {
+        //cout << "i " << i << endl;
         int pos = rand() % (a.size() + 1);
         int tmp = rand();
         a.insert(a.begin() + pos, tmp);
+         //cout << "size: " << b.size() << " +pos: " << pos << endl;
         b.insert(b.begin() + pos, tmp);
+       
     }
     timer.init();
     for (int i = 0; i < N; i++) {
@@ -397,18 +400,22 @@ std::pair<bool, double> iteratorAddENChecker() {
     for (int i = 0; i < N; i++) {
         int pos = rand() % (a.size() + 1);
         int tmp = rand();
-        a.insert(a.begin() += pos, tmp);
-        b.insert(b.begin() += pos, tmp);
+        auto ita = a.insert(a.begin() += pos, tmp);
+        auto itb = b.insert(b.begin() += pos, tmp);
+        if (*ita != *itb) {cout << "not same value" << endl;}
+        if ((ita - a.begin()) != (itb - b.begin())) {cout << "not same pos" << endl;}
     }
     timer.init();
     for (int i = 0; i < N; i++) {
         if (*(a.begin() += i) != *(b.begin() += i)) {
+            cout << "fail in " << i << endl;
             return std::make_pair(false, 0);
         }
         int tmp = rand();
         *(a.begin() + i) = tmp;
         *(b.begin() + i) = tmp;
     }
+cout << "ok" << endl;
     for (int i = 1; i <= N; i++) {
         if (*(a.end() += (-i)) != *(b.end() += (-i))) {
             return std::make_pair(false, 0);
@@ -546,16 +553,27 @@ std::pair<bool, double> iteratorSRedOneChecker() {
     for (int i = 0; i < N; i++) {
         int pos = rand() % (a.size() + 1);
         int tmp = rand();
-        a.insert(a.begin() + pos, tmp);
-        b.insert(b.begin() + pos, tmp);
+        auto ita = a.insert(a.begin() + pos, tmp);
+        auto itb = b.insert(b.begin() + pos, tmp);
+        if (*ita != *itb) {cout << "not same value" << endl;}
+        if (ita - a.begin() != itb - b.begin())  {cout << "not same pos" << endl;}
     }
+
     timer.init();
     auto itB = b.end(), tB = itB;
     auto itA = a.end(), tA = itA;
     tB = itB--;
     tA = itA--;
+
+    int t = 0;
     for (; ; tA = itA--, tB = itB--) {
+        //cout << ++t << endl;
+        ++t;
+        //cout << itA - a.begin() << " " << itB - b.begin() << endl;
         if (*itA != *itB) {
+            cout << "in* " << t << endl;
+            cout << itA - a.begin() << " " << itB - b.begin() << endl;
+            cout << a.size() << " " << b.size() << endl;
             return std::make_pair(false, 0);
         }
         if (tB != b.end() && *tA != *tB) {
@@ -587,10 +605,12 @@ std::pair<bool, double> iteratorMinusOperatorChecker() {
     int tmp1 = rand() % (a.size() + 1), tmp2 = rand() % (a.size() + 1);
     for (int i = 0; i < tmp1; i++) itA1++, itB1++;
     for (int i = 0; i < tmp2; i++) itA2++, itB2++;
+
     if (itA2 - itA1 != itB2 - itB1) {
         return std::make_pair(false, 0);
     }
     if (a.end() - a.begin() != b.end() - b.begin()) {
+        cout << "hello" << endl;
         return std::make_pair(false, 0);
     }
     if (itB1 + (itB2 - itB1) != itB2) {
@@ -917,6 +937,7 @@ std::pair<bool, double> synthesisChecker() {
     if (!isEqual(tA, tB)) {
         return std::make_pair(false, 0);
     }
+    
     a.clear();
     b.clear();
     if (!isEqual(tA, tB)) {
@@ -968,6 +989,7 @@ std::pair<bool, double> synthesisChecker() {
             return std::make_pair(false, 0);
         }
     }
+    
     tA = a = a = a;
     tB = b = b = b;
     a.clear();
@@ -989,6 +1011,7 @@ std::pair<bool, double> synthesisChecker() {
         return std::make_pair(false, 0);
     }
 
+/////////////////
     for (int i = 0; i < N; i++) {
         int tmp = rand();
         a.push_back(tmp);
@@ -1000,13 +1023,28 @@ std::pair<bool, double> synthesisChecker() {
         int tmp = rand();
         delta = itA - a.begin();
         if (b.begin() + delta != itB) {
+            cout << 1 << endl;
             return std::make_pair(false, 0);
         }
-        if (rand() % 2) {
-            if (itA != a.begin()) {
+        
+        if (itB == b.end()) {cout << "itB is end up "<< i << endl; }
+        if (1 % 2) {
+            if (itA != a.begin()) {  // 这里有问题
                 int offset = rand() % (itA - a.begin());
                 itA -= offset;
                 itB -= offset;
+                if (itB == b.end()) {cout << "itB is end inner "<< i << endl; }
+                if ((itA - a.begin()) == (itB - b.begin())) {
+                    //cout << "operated ok" << endl;
+                } else {
+                    cout << i << endl; 
+                    cout << "delta: " << delta << endl;
+                    cout << "itA - a: " << (itA - a.begin()) << "  itB - b: " << (itB - b.begin()) << endl; 
+                    cout << "offset: " << offset << endl;
+                    cout << "A size: " << a.size() << "  B size: " << b.size() << endl;
+                    cout << (itB == b.end()) << endl;
+                    cout << (itB == b.begin()) << endl;
+                }
             }
         } else {
             if (itA != a.end()) {
@@ -1017,19 +1055,27 @@ std::pair<bool, double> synthesisChecker() {
         }
         delta = itA - a.begin();
         if (b.begin() + delta != itB) {
+            cout << 2 << endl; // 这里
             return std::make_pair(false, 0);
         }
         if (itA == a.end()) {
             itA--;
             itB--;
+            if (itA - a.begin() != itB - b.begin()) {
+                cout << "after itB--, error occurs" << endl;
+            }
         }
         itA = a.erase(itA);
         itB = b.erase(itB);
+        // 判断itb是啥
         delta = itA - a.begin();
         if (b.begin() + delta != itB) {
+            cout << 3 << endl;
             return std::make_pair(false, 0);
         }
+        if (itB == b.end()) {cout << "itB is end" << i << endl; }
     }
+cout << "ok" << endl;
     if (!isEqual(a, b)) {
         return std::make_pair(false, 0);
     }
@@ -1109,6 +1155,7 @@ std::pair<bool, double> iteratorInsertPersistenceChecker() {
 }
 
 std::pair<bool, double> iteratorErasePersistenceChecker() {
+    // N == 1e4
     std::deque<Int> a;
     sjtu::deque<Int> b;
     timer.init();

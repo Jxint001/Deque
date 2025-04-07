@@ -1,0 +1,13 @@
+Testing push...                         start push teset
+pushed
+Passed
+Testing pop...                          Passed
+Testing insert...                       inserted
+Passed
+Testing iterator...                     Passed
+Testing erase...                        Passed
+Testing copy and clear...               Passed
+Testing memory...                       Passed
+Final test without mercy...             1111111111111111111111111Passed
+
+Congratulations, your deque passed all the tests!

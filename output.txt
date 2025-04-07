@@ -1,0 +1,2 @@
+Test 1 : Test for classes without default constructor...i 7 9918 9903
+Error, mismatch found.
