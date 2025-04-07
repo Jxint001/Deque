@@ -5,27 +5,20 @@
 #include "deque.hpp"
 using std::cout, std::endl;
 int main() {
-    sjtu::deque<int> dq;
-    std::deque<int> stl;
-    for (int i = 0; i < 90; ++i) {
-        dq.push_back(i);
-        stl.push_back(i);
-    }
-    auto it = dq.begin() + 45;
-    auto is = stl.begin() + 45;
+    sjtu::deque<int> d;
+    for(int i=0; i<10; i++)
+        d.push_back(i);
 
-    for (int i = 0; i < 15; ++i) {
-        int t = rand() % (dq.size() - 3);
-        it = dq.begin() + t;
-        is = stl.begin() + t;
-        it = dq.erase(it);
-        is = stl.erase(is);
-        it = dq.erase(it);
-        is = stl.erase(is);
+    const sjtu::deque<int> c = d;
+    //c = c;
+
+    for(sjtu::deque<int>::const_iterator it = c.cbegin(); it != c.cend(); it++) {
+        (*it) = 1;
+        std::cout << *it << std::endl;
     }
 
-    cout << it - dq.begin() << " " << is-stl.begin() << endl;
-    cout << dq.size() << " " << stl.size() << endl;
-    
+    const sjtu::deque<int>::const_iterator it = c.cbegin();
+    it = c.cend();
+
     return 0;
 }

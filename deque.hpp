@@ -945,7 +945,7 @@ public:
       return *this;
     }
 
-    T &operator*() const {
+    const T &operator*() const {
       if (container == nullptr || liter == container->dq.cend() || liter->elem[index] == nullptr)  throw invalid_iterator();
       return *(liter->elem[index]);
     }
